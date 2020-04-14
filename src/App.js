@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Hello from './Hello/Hello';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
       <Hello country="Germany" > </Hello>
       <Counter></Counter>
       <Person></Person>
+      <Users></Users>
 
         <ul>
           {nayoks.map(nayok=><li>{nayok} </li>)}
@@ -62,12 +64,32 @@ function Counter(){
   return(
     <div>
       <h1>Count:{count} </h1>
-      <button onClick={handIncrease}>Increase</button>
+      <button onClick={handIncrease}>Increase</button><br/>
+      <button onClick={() => setCount(count-1)}>Decrease</button>
 
     </div>
   )
   }
-
+function Users () {
+    const [users, setUser] = useState([])
+    useEffect(()=>{
+      fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res  =>res.json())
+      .then(data => setUser(data));
+    }, [])
+  return(
+    <div>
+      <h1>Dynamic Users :{users.length} </h1>
+      
+        <ul>
+          {
+          users.map(user=><li>{user.email}</li> )
+          }
+        </ul>
+      
+      </div>
+  )
+}
 function Person (){
 
   return(
